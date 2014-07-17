@@ -65,7 +65,8 @@ b[[0, 0]] = q
 k = King.new(b, [2, 2], :white)
 b[[2, 2]] = k
 
-p q.possible_moves
+q.move([0, 5])
+p b
 
 
 

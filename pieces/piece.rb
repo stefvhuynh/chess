@@ -1,18 +1,22 @@
 require_relative "../illegal_move_error"
 
 class Piece
-  attr_reader :position, :color
+  attr_reader :color
+  attr_accessor :position
   
   def initialize(board, position, color)
     @board = board
     @position, @color = position, color
   end
   
-  def move(pos)
-    move_pool = possible_moves
-    if move_pool.include?(pos)
+  def move(new_pos)
+    # SteppingMoves#possible_moves and SlidingMoves#possible_moves
+    if possible_moves.include?(new_pos)
+      @board[new_pos] = self
+      @board[self.position] = nil
+      self.position = new_pos
     else
-      raise
+      raise IllegalMoveError
     end
   end
   
