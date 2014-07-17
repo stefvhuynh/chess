@@ -1,6 +1,6 @@
 require_relative "sliding_piece"
 
-class Rook
+class Rook < SlidingPiece
 
   def move_dirs
     [

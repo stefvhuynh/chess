@@ -11,8 +11,11 @@ class Board
     Array.new(8) { Array.new(8) }
   end
   
+  attr_accessor :taken_pieces
+  
   def initialize
     @grid = self.class.create_grid
+    @taken_pieces = []
   end
   
   def [](pos)
@@ -62,10 +65,10 @@ end
 b = Board.new
 q = Queen.new(b, [0, 0], :white)
 b[[0, 0]] = q
-k = King.new(b, [2, 2], :white)
+k = King.new(b, [2, 2], :black)
 b[[2, 2]] = k
 
-q.move([0, 5])
+q.move([2, 2])
 p b
 
 
