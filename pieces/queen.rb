@@ -1,6 +1,15 @@
 require_relative "sliding_piece"
 
 class Queen < SlidingPiece
+  
+  UNICODE = {
+    :white => "♕",
+    :black => "♛"
+  }
+  
+  def render
+    UNICODE[self.color]
+  end
 
   def move_dirs
     [
