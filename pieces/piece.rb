@@ -27,7 +27,11 @@ class Piece
   
   # Will add more to this method (check for in_check? and checkmate?)
   def valid_move?(pos)
-    return @board.pos_occupied_by?(pos, self.color) ? false : true
+    if in_bounds?(pos) && !@board.pos_occupied_by?(pos, self.color)
+      true
+    else
+      false
+    end    
   end
   
   def in_bounds?(pos)

@@ -12,10 +12,13 @@ class SlidingPiece < Piece
       loop do
         move = [ self.position[0] + dir_row * multiple, 
                  self.position[1] + dir_col * multiple ]
-        # Piece#in_bounds and Piece#valid_move?
-        if in_bounds?(move) && valid_move?(move)
+        # Piece#valid_move?
+        if valid_move?(move)
           possible_moves << move
           multiple += 1
+          # Break if move was valid (move was not occupied by piece of own
+          # color) but was, nevertheless, occupied (by other color)
+          break if @board.pos_occupied?(move)
         else
           break
         end

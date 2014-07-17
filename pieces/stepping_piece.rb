@@ -10,8 +10,8 @@ class SteppingPiece < Piece
       possible_moves << [self.position[0] + d_row, self.position[1] + d_col]
     end
     
-    # Piece#in_bounds? and Piece#valid_move?
-    possible_moves.select { |move| in_bounds?(move) && valid_move?(move) }
+    # Piece#valid_move?
+    possible_moves.select { |move| valid_move?(move) }
   end
   
 end

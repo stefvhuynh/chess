@@ -67,9 +67,11 @@ q = Queen.new(b, [0, 0], :white)
 b[[0, 0]] = q
 k = King.new(b, [2, 2], :black)
 b[[2, 2]] = k
+p q.possible_moves
 
-q.move([2, 2])
+q.move([3, 3])
 p b
+
 
 
 
