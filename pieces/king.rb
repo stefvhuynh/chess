@@ -13,3 +13,4 @@ class King < SteppingPiece
   
 end
 
+

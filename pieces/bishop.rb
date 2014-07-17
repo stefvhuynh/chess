@@ -10,3 +10,5 @@ class Bishop
   end
   
 end
+
+

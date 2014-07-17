@@ -1,3 +1,5 @@
+require_relative "../illegal_move_error"
+
 class Piece
   attr_reader :position, :color
   
@@ -6,6 +8,15 @@ class Piece
     @position, @color = position, color
   end
   
+  def move(pos)
+    move_pool = possible_moves
+    if move_pool.include?(pos)
+    else
+      raise
+    end
+  end
+  
+  # Will add more to this method (check for in_check? and checkmate?)
   def valid_move?(pos)
     return @board.pos_occupied_by?(pos, self.color) ? false : true
   end
@@ -15,3 +26,5 @@ class Piece
   end
 
 end
+
+
