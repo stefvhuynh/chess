@@ -60,11 +60,14 @@ class Board
 end
 
 b = Board.new
-n = Knight.new(b, [0, 0], :white)
-b[[0, 0]] = n
-k = King.new(b, [1, 2], :white)
-b[[1, 2]] = k
-p n.possible_moves
+q = Queen.new(b, [0, 0], :white)
+b[[0, 0]] = q
+k = King.new(b, [2, 2], :white)
+b[[2, 2]] = k
+
+p q.possible_moves
+
+
 
 
 
