@@ -2,13 +2,13 @@ require_relative "piece"
 
 class Pawn < Piece
   
-  UNICODE = {
+  SYMBOLS = {
     :white => "♙",
     :black => "♟"
   }
   
   def render
-    UNICODE[self.color]
+    SYMBOLS[self.color]
   end
   
 end

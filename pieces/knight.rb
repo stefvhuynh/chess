@@ -2,13 +2,13 @@ require_relative "stepping_piece"
 
 class Knight < SteppingPiece
   
-  UNICODE = {
+  SYMBOLS = {
     :white => "♘",
     :black => "♞"
   }
   
   def render
-    UNICODE[self.color]
+    SYMBOLS[self.color]
   end
   
   def move_deltas 

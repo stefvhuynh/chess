@@ -2,13 +2,13 @@ require_relative "sliding_piece"
 
 class Bishop < SlidingPiece
   
-  UNICODE = {
+  SYMBOLS = {
     :white => "♗",
     :black => "♝"
   }
   
   def render
-    UNICODE[self.color]
+    SYMBOLS[self.color]
   end
 
   def move_dirs

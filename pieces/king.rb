@@ -2,13 +2,13 @@ require_relative "stepping_piece"
 
 class King < SteppingPiece
   
-  UNICODE = {
+  SYMBOLS = {
     :white => "♔",
     :black => "♚"
   }
   
   def render
-    UNICODE[self.color]
+    SYMBOLS[self.color]
   end
   
   def move_deltas
