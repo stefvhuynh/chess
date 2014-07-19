@@ -34,20 +34,23 @@ class Board
   end
   
   def in_check?(color)
-    king_pos = []
-    
-    self.each_with_index do |obj, row, col|
-      king_pos << row << col if obj.class == King && obj.color != color
-    end
-    
     self.each do |obj|
-      return true if !obj.nil? && obj.possible_moves.include?(king_pos)
+      # Don't need to check for opposing color here because 
+      # Piece#possible_moves already excludes one's own color.
+      return true if !obj.nil? && obj.possible_moves.include?(king_pos(color))
     end
     
     false
   end
   
-  # Will add more to this method (check for in_check? and checkmate?)
+  def king_pos(color)
+    [].tap do |king_pos|
+      self.each_with_index do |obj, row, col|
+        king_pos << row << col if obj.class == King && obj.color == color
+      end
+    end
+  end
+  
   def valid_move?(pos, color)
     in_bounds?(pos) && (pos_empty?(pos) || self[pos].color != color)
   end
@@ -130,8 +133,13 @@ end
 
 b = Board.new
 b.display
-p b[[6, 1]].possible_moves
-
+b[[6, 4]].move([4, 4])
+b.display
+b[[7, 3]].move([5, 5])
+b.display
+b[[5, 5]].move([1, 5])
+b.display
+p b[[1, 1]].possible_moves
 p b.in_check?(:black)
 
 
