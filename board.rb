@@ -33,7 +33,18 @@ class Board
   def checkmate?
   end
   
-  def in_check?
+  def in_check?(color)
+    king_pos = []
+    
+    self.each_with_index do |obj, row, col|
+      king_pos << row << col if obj.class == King && obj.color != color
+    end
+    
+    self.each do |obj|
+      return true if !obj.nil? && obj.possible_moves.include?(king_pos)
+    end
+    
+    false
   end
   
   # Will add more to this method (check for in_check? and checkmate?)
@@ -119,8 +130,9 @@ end
 
 b = Board.new
 b.display
-b[[0, 1]].move([2, 0])
-b.display
+p b[[6, 1]].possible_moves
+
+p b.in_check?(:black)
 
 
 
