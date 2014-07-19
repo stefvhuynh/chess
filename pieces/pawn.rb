@@ -3,8 +3,8 @@ require_relative "piece"
 class Pawn < Piece
   
   SYMBOLS = {
-    :white => "♙",
-    :black => "♟"
+    :white => " ♙ ",
+    :black => " ♟ "
   }
   
   def render

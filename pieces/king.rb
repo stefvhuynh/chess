@@ -3,8 +3,8 @@ require_relative "stepping_piece"
 class King < SteppingPiece
   
   SYMBOLS = {
-    :white => "♔",
-    :black => "♚"
+    :white => " ♔ ",
+    :black => " ♚ "
   }
   
   def render

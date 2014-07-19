@@ -3,12 +3,12 @@ require_relative "sliding_piece"
 class Rook < SlidingPiece
   
   SYMBOLS = {
-    :white => "♖",
-    :black => "♜"
+    :white => " ♖ ",
+    :black => " ♜ "
   }
   
   def render
-    SYMBOLS [self.color]
+    SYMBOLS[self.color]
   end
 
   def move_dirs

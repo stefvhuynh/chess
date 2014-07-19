@@ -13,7 +13,7 @@ class Piece
   def move(new_pos)
     # SteppingPiece#possible_moves and SlidingPiece#possible_moves
     if possible_moves.include?(new_pos)
-      @board.taken_pieces << @board[new_pos] if @board.pos_occupied?(new_pos)
+      @board.taken_pieces << @board[new_pos] unless @board.pos_empty?(new_pos)
       @board[new_pos] = self
       @board[self.position] = nil
       self.position = new_pos

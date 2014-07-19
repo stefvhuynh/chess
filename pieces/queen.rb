@@ -3,8 +3,8 @@ require_relative "sliding_piece"
 class Queen < SlidingPiece
   
   SYMBOLS = {
-    :white => "♕",
-    :black => "♛"
+    :white => " ♕ ",
+    :black => " ♛ "
   }
   
   def render

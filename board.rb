@@ -4,6 +4,7 @@ require_relative "pieces/knight"
 require_relative "pieces/bishop"
 require_relative "pieces/rook"
 require_relative "pieces/pawn"
+require "colorize"
 
 class Board
   
@@ -49,6 +50,7 @@ class Board
   end
   
   def display
+    puts render
   end
   
   def each_index(&blk)
@@ -74,22 +76,51 @@ class Board
   private
   
   def populate_board
+    back_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+    self.each_index do |row, col|
+      if row == 0
+        self[[row, col]] = back_row[col].new(self, [row, col], :black)
+      elsif row == 7
+        self[[row, col]] = back_row[col].new(self, [row, col], :white)
+      elsif row == 1
+        self[[row, col]] = Pawn.new(self, [row, col], :black)
+      elsif row == 6
+        self[[row, col]] = Pawn.new(self, [row, col], :white)
+      end
+    end
   end
 
   def render
+    rendered = "   A  B  C  D  E  F  G  H\n"
+    self.each_with_index do |obj, row, col|
+      rendered += "#{8 - row} " if col == 0
+      
+      if (row + col).odd?
+        if obj.nil?
+          rendered += "   ".colorize(:background => :white)
+        else
+          rendered += obj.render.colorize(:background => :white)
+        end
+      else
+        if obj.nil?
+          rendered += "   "
+        else
+          rendered += obj.render
+        end
+      end
+      
+      rendered += "\n" if col == 7
+    end
+    
+    rendered
   end
 
 end
 
 b = Board.new
-q = Queen.new(b, [0, 0], :white)
-b[[0, 0]] = q
-k = King.new(b, [2, 2], :white)
-b[[2, 2]] = k
-p q.possible_moves
-
-q.move([3, 3])
-p b
+b.display
+b[[0, 1]].move([2, 0])
+b.display
 
 
 
