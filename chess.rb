@@ -1,5 +1,6 @@
 require_relative "board"
 require_relative "user_error"
+require "yaml"
 
 class Chess
   
@@ -28,6 +29,13 @@ class Chess
       begin
         begin
           start_pos, end_pos = user_input
+          
+          if start_pos == "SAVE"
+            save_game
+            puts "Game succesfully saved!"
+            return
+          end
+          
           raise UserError if @board.pos_empty?(start_pos)
           raise UserError if @board[start_pos].color != @turn
         rescue UserError
@@ -52,11 +60,14 @@ class Chess
     begin
       print "Enter starting and ending positions (ex: B8 C6): "
       user_input = gets.chomp.upcase
-      raise UserError if user_input !~ /^[A-Z]{1}\d{1}\s[A-Z]{1}\d{1}$/
+      p user_input
+      raise UserError if user_input !~ /^[A-Z]{1}\d{1}\s[A-Z]{1}\d{1}$|^SAVE$/
     rescue UserError
       puts "Please enter valid characters!"
       retry
     end
+    
+    return user_input if user_input == "SAVE"
     
     user_input.split(/ /).map do |input|
       transformed = input.split(//).reverse
@@ -70,8 +81,33 @@ class Chess
     @turn = (@turn == :white) ? :black : :white
   end
   
+  def save_game
+    print "Please name your save file: "
+    filename = gets.chomp.downcase
+    File.write("#{filename}.yml", YAML.dump(self))
+  end
+  
 end
 
-Chess.new.play
+if __FILE__ == $PROGRAM_NAME
+  begin
+    print "Would you like to load a saved game or start a new one (load/new)? "
+    input = gets.chomp.upcase
+    raise UserError unless input != "LOAD" || input != "NEW"
+  rescue UserError
+    puts "Please type 'load' or 'new'!"
+    retry
+  end
+  
+  if input == "NEW"
+    Chess.new.play
+  else
+    print "What is the name of your save file? "
+    filename = gets.chomp.downcase
+    YAML.load_file("#{filename}.yml").play
+  end
+end
+
+
 
 
