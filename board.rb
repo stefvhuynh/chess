@@ -34,7 +34,7 @@ class Board
     if in_check?(color)
       self.each do |obj|        
         if !obj.nil? && obj.color == color
-          if obj.possible_moves.any? { |move| obj.non_check_move?(move) }
+          if obj.possible_moves.any? { |move| non_check_move?(obj, move) }
             return false
           end
         end # Close if
@@ -50,7 +50,7 @@ class Board
     unless in_check?(color)
       self.each do |obj|        
         if !obj.nil? && obj.color == color
-          if obj.possible_moves.any? { |move| obj.non_check_move?(move) }
+          if obj.possible_moves.any? { |move| non_check_move?(obj, move) }
             return false
           end
         end # Close if
@@ -60,6 +60,13 @@ class Board
     else
       false
     end
+  end
+  
+  def non_check_move?(piece, move)
+    piece.move(move)
+    bool = in_check?(piece.color)
+    piece.undo_move
+    !bool
   end
   
   def in_check?(color)
@@ -169,10 +176,5 @@ class Board
 
 end
 
-b = Board.new(true)
-King.new(b, [0, 0], :black)
-Rook.new(b, [7, 1], :white)
-Rook.new(b, [1, 7], :white)
-b.display
-p b.stalemate?(:black)
+
 

@@ -34,13 +34,6 @@ class Piece
     @board[self.position] = @board.taken_pieces.pop
     self.position = prev_pos
   end
-  
-  def non_check_move?(move)
-    self.move(move)
-    bool = @board.in_check?(self.color)
-    self.undo_move
-    !bool
-  end
 
 end
 

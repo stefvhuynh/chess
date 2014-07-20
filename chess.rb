@@ -43,6 +43,9 @@ class Chess
           retry
         end
         
+        unless @board.non_check_move?(@board[start_pos], end_pos)
+          raise IllegalMoveError 
+        end
         @board[start_pos].move(end_pos)
       rescue IllegalMoveError
         puts "That's not a valid move!"
@@ -60,7 +63,6 @@ class Chess
     begin
       print "Enter starting and ending positions (ex: B8 C6): "
       user_input = gets.chomp.upcase
-      p user_input
       raise UserError if user_input !~ /^[A-Z]{1}\d{1}\s[A-Z]{1}\d{1}$|^SAVE$/
     rescue UserError
       puts "Please enter valid characters!"

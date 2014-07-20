@@ -10,7 +10,6 @@ class SteppingPiece < Piece
       possible_moves << [self.position[0] + d_row, self.position[1] + d_col]
     end
     
-    # Piece#valid_move?
     possible_moves.select { |move| @board.valid_move?(move, self.color) }
   end
   
