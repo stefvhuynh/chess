@@ -14,7 +14,7 @@ class Piece
   
   def move(new_pos)
     # Subclass#possible_moves (SlidingPiece, SteppingPiece, Pawn)
-    if possible_moves.include?(new_pos) #&& safe_move?(new_pos)
+    if possible_moves.include?(new_pos)
       # Also shovel in the nils (empty spaces) for Piece#undo_move.
       @board.taken_pieces << @board[new_pos]
       @board[new_pos] = self

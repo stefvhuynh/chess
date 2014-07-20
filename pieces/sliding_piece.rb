@@ -17,7 +17,7 @@ class SlidingPiece < Piece
           possible_moves << move
           multiple += 1
           # Break if move was valid (move was not occupied by piece of own
-          # color) but was, nevertheless, occupied (by other color)
+          # color) but was, nevertheless, occupied (by other color).
           break if !@board.pos_empty?(move)
         else
           break

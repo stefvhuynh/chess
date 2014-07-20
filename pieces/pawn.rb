@@ -41,7 +41,7 @@ class Pawn < Piece
   
   def all_pawn_moves
     [].tap do |moves|
-      DELTAS[self.color].each_with_index do |(d_row, d_col), index|
+      DELTAS[self.color].each do |(d_row, d_col)|
         moves << [self.position[0] + d_row, self.position[1] + d_col]
       end
     end
