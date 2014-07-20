@@ -22,7 +22,7 @@ class Chess
   
   def play
   
-    until @board.checkmate?(@turn)
+    until @board.checkmate?(@turn) || @board.stalemate?(@turn)
       @board.display
       puts "#{@turn.upcase} to move."
       
@@ -53,7 +53,7 @@ class Chess
     end
     
     @board.display
-    puts "#{next_turn.upcase} wins!"
+    puts @board.checkmate?(@turn) ? "#{next_turn.upcase} wins!" : "Stalemate!"
   end
   
   def user_input

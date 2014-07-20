@@ -37,8 +37,24 @@ class Board
           if obj.possible_moves.any? { |move| obj.non_check_move?(move) }
             return false
           end
-        end
-      end
+        end # Close if
+      end # Close .each
+      
+      true
+    else
+      false
+    end
+  end
+  
+  def stalemate?(color)
+    unless in_check?(color)
+      self.each do |obj|        
+        if !obj.nil? && obj.color == color
+          if obj.possible_moves.any? { |move| obj.non_check_move?(move) }
+            return false
+          end
+        end # Close if
+      end # Close .each
       
       true
     else
@@ -54,14 +70,6 @@ class Board
     end
     
     false
-  end
-  
-  def king_pos(color)
-    [].tap do |king_pos|
-      self.each_with_index do |obj, row, col|
-        king_pos << row << col if obj.class == King && obj.color == color
-      end
-    end
   end
   
   def valid_pawn_move?(move)
@@ -124,6 +132,14 @@ class Board
       end
     end
   end
+  
+  def king_pos(color)
+    [].tap do |king_pos|
+      self.each_with_index do |obj, row, col|
+        king_pos << row << col if obj.class == King && obj.color == color
+      end
+    end
+  end
 
   def render
     rendered = "\n   A  B  C  D  E  F  G  H\n"
@@ -153,5 +169,10 @@ class Board
 
 end
 
-
+b = Board.new(true)
+King.new(b, [0, 0], :black)
+Rook.new(b, [7, 1], :white)
+Rook.new(b, [1, 7], :white)
+b.display
+p b.stalemate?(:black)
 
