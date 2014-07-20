@@ -126,7 +126,7 @@ class Board
   end
 
   def render
-    rendered = "   A  B  C  D  E  F  G  H\n"
+    rendered = "\n   A  B  C  D  E  F  G  H\n"
     self.each_with_index do |obj, row, col|
       rendered += "#{8 - row} " if col == 0
       
@@ -147,22 +147,11 @@ class Board
       rendered += "\n" if col == 7
     end
     
-    rendered
+    self.taken_pieces.compact.each { |piece| rendered += piece.render }
+    rendered += "\n"
   end
 
 end
 
-# b = Board.new
-# b[[6, 4]].move([4, 4])
-# b[[7, 5]].move([4, 2])
-# b[[7, 3]].move([5, 5])
-# b[[5, 5]].move([1, 5])
-# b[[0, 1]].move([2, 0])
-# b[[2, 0]].undo_move
-# b[[0, 1]].move([2, 2])
-# p b[[2, 2]].move_history
-# b[[2, 2]].undo_move
-# p b.checkmate?(:black)
-# b.display
 
 

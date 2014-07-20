@@ -1,4 +1,5 @@
 require_relative "board"
+require_relative "user_error"
 
 class Chess
   
@@ -25,7 +26,15 @@ class Chess
       puts "#{@turn.upcase} to move."
       
       begin
-        start_pos, end_pos = user_input
+        begin
+          start_pos, end_pos = user_input
+          raise UserError if @board.pos_empty?(start_pos)
+          raise UserError if @board[start_pos].color != @turn
+        rescue UserError
+          puts "Please select one of your pieces!"
+          retry
+        end
+        
         @board[start_pos].move(end_pos)
       rescue IllegalMoveError
         puts "That's not a valid move!"
@@ -36,16 +45,23 @@ class Chess
     end
     
     @board.display
-  
+    puts "#{next_turn.upcase} wins!"
   end
   
   def user_input
-    print "Enter starting and ending positions (ex: B8 C6): "
-    user_input = gets.chomp.split(/ /)
-    user_input.map do |input|
+    begin
+      print "Enter starting and ending positions (ex: B8 C6): "
+      user_input = gets.chomp.upcase
+      raise UserError if user_input !~ /^[A-Z]{1}\d{1}\s[A-Z]{1}\d{1}$/
+    rescue UserError
+      puts "Please enter valid characters!"
+      retry
+    end
+    
+    user_input.split(/ /).map do |input|
       transformed = input.split(//).reverse
       transformed[0] = 8 - transformed[0].to_i
-      transformed[1] = COLUMNS[transformed[1].upcase.to_sym]
+      transformed[1] = COLUMNS[transformed[1].to_sym]
       transformed
     end
   end
