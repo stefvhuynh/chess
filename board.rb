@@ -30,7 +30,22 @@ class Board
     @grid[row][col] = obj
   end
   
-  def checkmate?
+  # def dup
+  #   Board.new(true).tap do |dup_board|
+  #     self.each_with_index do |obj, row, col|
+  #       dup_board[[row, col]] = obj.dup(dup_board) unless obj.nil?
+  #     end
+  #   end
+  # end
+  
+  def checkmate?(color)
+    self.each do |obj|
+      if !obj.nil? && obj.color == color
+        return false if obj.possible_moves.any? { |move| obj.safe_move?(move) }
+      end
+    end
+    
+    true
   end
   
   def in_check?(color)
@@ -93,16 +108,31 @@ class Board
     back_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
     self.each_index do |row, col|
       if row == 0
-        self[[row, col]] = back_row[col].new(self, [row, col], :black)
+        back_row[col].new(self, [row, col], :black)
       elsif row == 7
-        self[[row, col]] = back_row[col].new(self, [row, col], :white)
+        back_row[col].new(self, [row, col], :white)
       elsif row == 1
-        self[[row, col]] = Pawn.new(self, [row, col], :black)
+        Pawn.new(self, [row, col], :black)
       elsif row == 6
-        self[[row, col]] = Pawn.new(self, [row, col], :white)
+        Pawn.new(self, [row, col], :white)
       end
     end
   end
+  
+  # def populate_board
+  #   back_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+  #   self.each_index do |row, col|
+  #     if row == 0
+  #       self[[row, col]] = back_row[col].new(self, [row, col], :black)
+  #     elsif row == 7
+  #       self[[row, col]] = back_row[col].new(self, [row, col], :white)
+  #     elsif row == 1
+  #       self[[row, col]] = Pawn.new(self, [row, col], :black)
+  #     elsif row == 6
+  #       self[[row, col]] = Pawn.new(self, [row, col], :white)
+  #     end
+  #   end
+  # end
 
   def render
     rendered = "   A  B  C  D  E  F  G  H\n"
@@ -131,19 +161,11 @@ class Board
 
 end
 
-b = Board.new
+b = Board.new(true)
+King.new(b, [0, 0], :black)
+Bishop.new(b, [1, 0], :black)
+Rook.new(b, [7, 0], :white)
 b.display
-b[[6, 4]].move([4, 4])
-b.display
-b[[7, 3]].move([5, 5])
-b.display
-b[[5, 5]].move([1, 5])
-b.display
-p b[[1, 1]].possible_moves
-p b.in_check?(:black)
-
-
-
-
+p b[[1, 0]].non_check_move?([2, 1])
 
 
