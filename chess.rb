@@ -27,13 +27,15 @@ class Chess
       begin
         start_pos, end_pos = user_input
         @board[start_pos].move(end_pos)
-      rescue IllegalMoveError, NoMethodError
+      rescue IllegalMoveError
         puts "That's not a valid move!"
         retry
       end
       
       next_turn
     end
+    
+    @board.display
   
   end
   

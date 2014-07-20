@@ -30,22 +30,20 @@ class Board
     @grid[row][col] = obj
   end
   
-  # def dup
-  #   Board.new(true).tap do |dup_board|
-  #     self.each_with_index do |obj, row, col|
-  #       dup_board[[row, col]] = obj.dup(dup_board) unless obj.nil?
-  #     end
-  #   end
-  # end
-  
   def checkmate?(color)
-    self.each do |obj|
-      if !obj.nil? && obj.color == color
-        return false if obj.possible_moves.any? { |move| obj.safe_move?(move) }
+    if in_check?(color)
+      self.each do |obj|        
+        if !obj.nil? && obj.color == color
+          if obj.possible_moves.any? { |move| obj.non_check_move?(move) }
+            return false
+          end
+        end
       end
+      
+      true
+    else
+      false
     end
-    
-    true
   end
   
   def in_check?(color)
@@ -64,6 +62,14 @@ class Board
         king_pos << row << col if obj.class == King && obj.color == color
       end
     end
+  end
+  
+  def valid_pawn_move?(move)
+    pos_empty?(move) && in_bounds?(move)
+  end
+  
+  def valid_pawn_attack?(move, color)
+    !pos_empty?(move) && (self[move].color != color) && in_bounds?(move)
   end
   
   def valid_move?(pos, color)
@@ -118,21 +124,6 @@ class Board
       end
     end
   end
-  
-  # def populate_board
-  #   back_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
-  #   self.each_index do |row, col|
-  #     if row == 0
-  #       self[[row, col]] = back_row[col].new(self, [row, col], :black)
-  #     elsif row == 7
-  #       self[[row, col]] = back_row[col].new(self, [row, col], :white)
-  #     elsif row == 1
-  #       self[[row, col]] = Pawn.new(self, [row, col], :black)
-  #     elsif row == 6
-  #       self[[row, col]] = Pawn.new(self, [row, col], :white)
-  #     end
-  #   end
-  # end
 
   def render
     rendered = "   A  B  C  D  E  F  G  H\n"
@@ -161,11 +152,17 @@ class Board
 
 end
 
-b = Board.new(true)
-King.new(b, [0, 0], :black)
-Bishop.new(b, [1, 0], :black)
-Rook.new(b, [7, 0], :white)
-b.display
-p b[[1, 0]].non_check_move?([2, 1])
+# b = Board.new
+# b[[6, 4]].move([4, 4])
+# b[[7, 5]].move([4, 2])
+# b[[7, 3]].move([5, 5])
+# b[[5, 5]].move([1, 5])
+# b[[0, 1]].move([2, 0])
+# b[[2, 0]].undo_move
+# b[[0, 1]].move([2, 2])
+# p b[[2, 2]].move_history
+# b[[2, 2]].undo_move
+# p b.checkmate?(:black)
+# b.display
 
 
